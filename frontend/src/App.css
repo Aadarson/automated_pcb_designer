@@ -1,0 +1,239 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-layout {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Sidebars ─────────────────────────────────────────── */
+.sidebar-left {
+  width: 300px;
+  min-width: 260px;
+  background-color: var(--bg-panel);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-right {
+  width: 240px;
+  min-width: 200px;
+  background-color: var(--bg-panel);
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+/* ── Center workspace ─────────────────────────────────── */
+.workspace-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+/* ── Top bar ──────────────────────────────────────────── */
+.top-bar {
+  height: 48px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: var(--bg-panel);
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.brand-title {
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-title span {
+  background: linear-gradient(to right, #38bdf8, #818cf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.canvas-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── View tabs ────────────────────────────────────────── */
+.view-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.view-tab {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.view-tab.active,
+.view-tab:hover {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+/* ── Copilot styles ───────────────────────────────────── */
+.copilot-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.copilot-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.copilot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.c-message {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  animation: fadeSlideIn 0.2s ease;
+}
+
+.c-message.user {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  align-self: flex-end;
+  border-bottom-right-radius: 3px;
+  max-width: 88%;
+}
+
+.c-message.ai {
+  background: rgba(59, 130, 246, 0.1);
+  color: #c7d7f5;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  align-self: flex-start;
+  border-bottom-left-radius: 3px;
+  max-width: 92%;
+}
+
+/* ── Copilot input ────────────────────────────────────── */
+.copilot-input {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+}
+
+.copilot-input form {
+  display: flex;
+  gap: 8px;
+}
+
+.copilot-input input {
+  flex: 1;
+  background: var(--bg-base);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 9px 12px;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.copilot-input input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.copilot-input input:disabled {
+  opacity: 0.5;
+}
+
+.copilot-input button {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.copilot-input button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.copilot-input button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.copilot-input button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Dot pulse loading animation ─────────────────────── */
+.dot-pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38bdf8;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

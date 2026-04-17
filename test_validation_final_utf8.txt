@@ -1,0 +1,22 @@
+﻿INFO:backend.kicad_bridge.footprint_resolver:Built footprint index with 23988 footprints from libs\kicad-footprints
+INFO:backend.ml_engine.rl_agent:RL Agent loaded structural memory with 1323 spatial experiences.
+INFO:backend.design_engine.parser:Parsing user prompt: Design a 2-layer Arduino Uno motor driver shield with two L298N dual H-bridge motor driver ICs for controlling 4 DC motors, 100nF decoupling capacitors on each L298N power pin, a 7805 5V voltage regulator for logic power, 470uF bulk capacitor on the 12V motor supply rail, flyback diodes on all motor output pins, screw terminal connectors for motor outputs, and a 2x8 pin header for Arduino stacking. Include GND and VCC copper pours.
+INFO:backend.design_engine.parser:Fuzzy matched 'Package_TO_SOT_THT:TO-220-15_P1.27x2.54mm_StaggerOdd_Lead4.58mm_Vertical' to 'TO-220-15_P2.54x2.54mm_StaggerOdd_Lead4.58mm_Vertical'
+INFO:backend.design_engine.parser:Fuzzy matched 'Package_TO_SOT_THT:TO-220-15_P1.27x2.54mm_StaggerOdd_Lead4.58mm_Vertical' to 'TO-220-15_P2.54x2.54mm_StaggerOdd_Lead4.58mm_Vertical'
+INFO:__main__:Loaded 7 components natively from parser.
+INFO:__main__:
+--- EPOCH 1 ---
+INFO:backend.design_engine.placement:Running advanced simulated annealing placement...
+INFO:backend.design_engine.placement:Final placement collisions: 4
+INFO:backend.design_engine.router:Running Advanced A* Router
+INFO:backend.design_engine.router:Built pos_map with 81 entries including pads.
+INFO:backend.kicad_bridge.exporter:Exporting KiCad PCB to rl_validation.kicad_pcb
+INFO:backend.kicad_bridge.exporter:Added footprint C1 at 18.436926602350102, 5.066452928387379
+INFO:backend.kicad_bridge.exporter:Added footprint C2 at 31.06061915659368, 5.9842731631897355
+INFO:backend.kicad_bridge.exporter:Added footprint U1 at 10.679192129995197, 12.642190106087355
+INFO:backend.kicad_bridge.exporter:Added footprint U2 at 38.83315002934306, 21.539323062638587
+INFO:backend.kicad_bridge.exporter:Added footprint U3 at 31.09809315303126, 45.70474973060984
+INFO:backend.kicad_bridge.exporter:Added footprint J1 at 38.730910775722116, 50.505836903143795
+INFO:backend.kicad_bridge.exporter:Added footprint D1 at 20.863222606786692, 62.594648622633976
+INFO:__main__:Running KiCad CLI DRC check...
+INFO:__main__:SUCCESS: 0 DRC Violations (Errors + Warnings) found on Epoch 1!

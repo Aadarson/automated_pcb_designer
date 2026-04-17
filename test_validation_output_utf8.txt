@@ -1,0 +1,819 @@
+﻿INFO:backend.kicad_bridge.footprint_resolver:Built footprint index with 23988 footprints from libs\kicad-footprints
+INFO:backend.ml_engine.rl_agent:RL Agent loaded structural memory with 1195 spatial experiences.
+INFO:backend.design_engine.parser:Parsing user prompt: Design a 2-layer Arduino Uno motor driver shield with two L298N dual H-bridge motor driver ICs for controlling 4 DC motors, 100nF decoupling capacitors on each L298N power pin, a 7805 5V voltage regulator for logic power, 470uF bulk capacitor on the 12V motor supply rail, flyback diodes on all motor output pins, screw terminal connectors for motor outputs, and a 2x8 pin header for Arduino stacking. Include GND and VCC copper pours.
+INFO:backend.design_engine.parser:Fuzzy matched 'Package_TO_SOT_THT:TO-220-15_P1.27x2.54mm_StaggerOdd_Lead4.58mm_Vertical' to 'TO-220-15_P2.54x2.54mm_StaggerOdd_Lead4.58mm_Vertical'
+INFO:backend.design_engine.parser:Fuzzy matched 'Package_TO_SOT_THT:TO-220-15_P1.27x2.54mm_StaggerOdd_Lead4.58mm_Vertical' to 'TO-220-15_P2.54x2.54mm_StaggerOdd_Lead4.58mm_Vertical'
+INFO:__main__:Loaded 7 components natively from parser.
+INFO:__main__:
+--- EPOCH 1 ---
+INFO:backend.design_engine.placement:Running advanced simulated annealing placement...
+INFO:backend.design_engine.placement:Final placement collisions: 3
+INFO:backend.design_engine.router:Running Advanced A* Router
+INFO:backend.design_engine.router:Built pos_map with 81 entries including pads.
+INFO:backend.kicad_bridge.exporter:Exporting KiCad PCB to rl_validation.kicad_pcb
+INFO:backend.kicad_bridge.exporter:Added footprint C1 at 16.971928799191975, 4.7155716562304235
+INFO:backend.kicad_bridge.exporter:Added footprint C2 at 34.14747895302618, 10.596120473170528
+INFO:backend.kicad_bridge.exporter:Added footprint U1 at 7.217027509011262, 12.992299067703954
+INFO:backend.kicad_bridge.exporter:Added footprint U2 at 33.864423153881276, 25.453980585896115
+INFO:backend.kicad_bridge.exporter:Added footprint U3 at 26.532816452601434, 41.51532500867394
+INFO:backend.kicad_bridge.exporter:Added footprint J1 at 34.229515775285215, 47.520673630573306
+INFO:backend.kicad_bridge.exporter:Added footprint D1 at 25.72300543656554, 64.35467590048552
+INFO:__main__:Running KiCad CLI DRC check...
+WARNING:__main__:RL agent found 34 critical layout errors.
+Found 34 violations
+Found 0 unconnected items
+Saved DRC Report to raw_drc.json
+INFO:__main__:{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-03-27T22:57:10+0530",
+    "kicad_version": "9.0.7",
+    "schematic_parity": [],
+    "source": "rl_validation.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Items shorting two nets (nets N1 and )",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 1.9000 mm",
+                    "pos": {
+                        "x": 7.2,
+                        "y": 12.9
+                    },
+                    "uuid": "a4c3028e-18ab-4655-a3d1-c7c542b11418"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets  and N1)",
+            "items": [
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                },
+                {
+                    "description": "Track [N1] on F.Cu, length 10.7000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 25.4
+                    },
+                    "uuid": "8d3c051e-0887-45d5-b81a-40b0166613df"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets N1 and )",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.6000 mm",
+                    "pos": {
+                        "x": 7.2,
+                        "y": 14.8
+                    },
+                    "uuid": "a3e449af-a8e9-4ca5-afdc-10677cb8e19d"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets  and N1)",
+            "items": [
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                },
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 24.9
+                    },
+                    "uuid": "5ce77da8-5e1e-461c-9644-cb9a1aa60c55"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Items shorting two nets (nets  and N1)",
+            "items": [
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                },
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 7.8,
+                        "y": 14.8
+                    },
+                    "uuid": "bedbd72f-1314-4e3b-8a5e-ee2a2aeaf647"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 11.0
+                    },
+                    "uuid": "767572c0-4c22-498d-be1e-10acd7edf863"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 33.1,
+                        "y": 10.5
+                    },
+                    "uuid": "9d5e9113-cd15-435d-877d-7f84782e30fa"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 9.8
+                    },
+                    "uuid": "b0efb4ca-0083-4d2f-990b-c14e4e17cc0b"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets  and N1)",
+            "items": [
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                },
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 25.0
+                    },
+                    "uuid": "b69353c5-5056-44e1-9a6d-171506e683ca"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 7.0000 mm",
+                    "pos": {
+                        "x": 16.0,
+                        "y": 9.7
+                    },
+                    "uuid": "234035d6-8128-4168-b801-cec7f52405ed"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets N1 and )",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 7.8,
+                        "y": 14.9
+                    },
+                    "uuid": "24bc3ed4-7cf3-4a8d-9d5f-fb60dd349313"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 15.8000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 11.1
+                    },
+                    "uuid": "7e866bb9-9125-4678-bfd2-f8c6d3bfed9a"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets  and N1)",
+            "items": [
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                },
+                {
+                    "description": "Track [N1] on F.Cu, length 0.4000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 25.0
+                    },
+                    "uuid": "8aa3b0fc-1324-4bdc-8d18-6a417ba035c2"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.5000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 10.5
+                    },
+                    "uuid": "f00b39c1-d4d3-4912-a458-6e70d2e8ced8"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.7000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 9.8
+                    },
+                    "uuid": "78b02cf2-1279-4c67-91c4-e4a0f07f2f2a"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 1.8000 mm",
+                    "pos": {
+                        "x": 7.2,
+                        "y": 11.1
+                    },
+                    "uuid": "6eb612fa-40ab-4044-b30e-6db276692f9f"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 10.452299
+                    },
+                    "uuid": "27fce9cb-ae46-49bd-84a6-8121ed360368"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets N1 and )",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 7.9,
+                        "y": 14.9
+                    },
+                    "uuid": "8b7beec0-8aab-4980-904f-8ed72fb291c2"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 9.7
+                    },
+                    "uuid": "595a72be-1c34-421f-88a3-5d043ee13048"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Items shorting two nets (nets  and N1)",
+            "items": [
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                },
+                {
+                    "description": "Track [N1] on F.Cu, length 15.1000 mm",
+                    "pos": {
+                        "x": 7.9,
+                        "y": 24.9
+                    },
+                    "uuid": "754ec948-332e-499e-a33c-f1f693d469f2"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 10.5
+                    },
+                    "uuid": "2ca5b663-7d03-49c3-8fd8-68ebc765ed99"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 11.0
+                    },
+                    "uuid": "dae63b93-1764-4df4-9cfd-90cb83818114"
+                },
+                {
+                    "description": "NPTH pad of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 10.452299
+                    },
+                    "uuid": "bd825f59-f278-454b-8908-0e176e080bf1"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 1.9000 mm",
+                    "pos": {
+                        "x": 7.2,
+                        "y": 12.9
+                    },
+                    "uuid": "a4c3028e-18ab-4655-a3d1-c7c542b11418"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.6000 mm",
+                    "pos": {
+                        "x": 7.2,
+                        "y": 14.8
+                    },
+                    "uuid": "a3e449af-a8e9-4ca5-afdc-10677cb8e19d"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 7.8,
+                        "y": 14.8
+                    },
+                    "uuid": "bedbd72f-1314-4e3b-8a5e-ee2a2aeaf647"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 7.8,
+                        "y": 14.9
+                    },
+                    "uuid": "24bc3ed4-7cf3-4a8d-9d5f-fb60dd349313"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 7.9,
+                        "y": 14.9
+                    },
+                    "uuid": "8b7beec0-8aab-4980-904f-8ed72fb291c2"
+                },
+                {
+                    "description": "PTH pad 2 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 15.532299
+                    },
+                    "uuid": "a5df3c65-419e-4dcb-9727-ac2469c8c42b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 7.9,
+                        "y": 14.9
+                    },
+                    "uuid": "8b7beec0-8aab-4980-904f-8ed72fb291c2"
+                },
+                {
+                    "description": "PTH pad 3 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 18.072299
+                    },
+                    "uuid": "053eb660-d8f7-4369-bc10-a5d0df391438"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 7.9,
+                        "y": 14.9
+                    },
+                    "uuid": "8b7beec0-8aab-4980-904f-8ed72fb291c2"
+                },
+                {
+                    "description": "PTH pad 4 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 20.612299
+                    },
+                    "uuid": "d9372d36-4f4f-40d8-aa3d-a74d20a0946b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.0000 mm",
+                    "pos": {
+                        "x": 7.9,
+                        "y": 14.9
+                    },
+                    "uuid": "8b7beec0-8aab-4980-904f-8ed72fb291c2"
+                },
+                {
+                    "description": "PTH pad 5 [<no net>] of U1",
+                    "pos": {
+                        "x": 7.217028,
+                        "y": 23.152299
+                    },
+                    "uuid": "cbe63bd1-6735-40e6-9326-59852d0e00ce"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 15.1000 mm",
+                    "pos": {
+                        "x": 7.9,
+                        "y": 24.9
+                    },
+                    "uuid": "754ec948-332e-499e-a33c-f1f693d469f2"
+                },
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 24.9
+                    },
+                    "uuid": "5ce77da8-5e1e-461c-9644-cb9a1aa60c55"
+                },
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 25.0
+                    },
+                    "uuid": "b69353c5-5056-44e1-9a6d-171506e683ca"
+                },
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 0.4000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 25.0
+                    },
+                    "uuid": "8aa3b0fc-1324-4bdc-8d18-6a417ba035c2"
+                },
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [N1] on F.Cu, length 10.7000 mm",
+                    "pos": {
+                        "x": 23.1,
+                        "y": 25.4
+                    },
+                    "uuid": "8d3c051e-0887-45d5-b81a-40b0166613df"
+                },
+                {
+                    "description": "PTH pad 25 [<no net>] of U1",
+                    "pos": {
+                        "x": 22.457028,
+                        "y": 25.692299
+                    },
+                    "uuid": "377492cf-7772-4249-872a-28a15701d58a"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        }
+    ]
+}
+
