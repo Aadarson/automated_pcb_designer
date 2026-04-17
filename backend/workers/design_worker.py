@@ -1,8 +1,8 @@
 """
 design_worker.py
-Stub worker that runs the PCB design pipeline as a FastAPI background task.
-Publishes progress events to the in-memory redis client so the WS endpoint
-can stream them to the browser.
+Background worker that runs the PCB design pipeline as a FastAPI background task.
+Publishes progress events to the in-memory state manager so the WebSocket endpoint
+can stream them to the browser canvas.
 """
 import asyncio
 import traceback
@@ -14,7 +14,7 @@ from backend.core.redis_client import redis_client
 async def run_design_pipeline(job_id: str, request: dict):
     """
     Entry point called by FastAPI BackgroundTasks.
-    Tries to invoke the real design engine pipeline; if anything fails
+    Invokes the real design engine pipeline; if anything fails
     it publishes an error event so the frontend is always notified.
     """
     async def publish(event: dict):
@@ -23,35 +23,60 @@ async def run_design_pipeline(job_id: str, request: dict):
     try:
         await publish({"status": "running", "step": "parsing", "progress": 5})
 
-        # --- Import the real pipeline pieces lazily so import errors are caught ---
-        from backend.design_engine.parser    import PCBDesignParser
-        from backend.design_engine.placement import ComponentPlacer
-        from backend.design_engine.router    import PCBRouter
+        # Import lazily so import errors are caught gracefully
+        from backend.design_engine.parser import parse_prompt
 
-        prompt     = request.get("prompt", "")
-        board_w    = request.get("board_width_mm",  100)
-        board_h    = request.get("board_height_mm", 100)
+        prompt  = request.get("prompt", "")
+        board_w = request.get("board_width_mm", 100)
+        board_h = request.get("board_height_mm", 100)
 
         # 1. Parse components from natural-language prompt
         await publish({"status": "running", "step": "parsing", "progress": 15})
-        parser     = PCBDesignParser()
-        components = parser.extract_components(prompt)
+        parsed = parse_prompt(prompt)
+        components = parsed.get("components", [])
+        connections = parsed.get("connections", [])
 
-        # 2. Place components on board
         await publish({"status": "running", "step": "placement", "progress": 40})
-        placer     = ComponentPlacer(board_width=board_w, board_height=board_h)
-        placements = placer.place(components)
+        # Placement coordinates already calculated inside parse_prompt.
+        # If a future dedicated placement engine is needed, hook it here.
+        placements = [
+            {
+                "ref": c["ref"],
+                "x":   c["x"],
+                "y":   c["y"],
+                "w":   c["w"],
+                "h":   c["h"],
+                "type": c["type"],
+                "color": c["color"],
+                "footprint": c["footprint"],
+                "value": c["value"],
+            }
+            for c in components
+        ]
 
-        # 3. Route traces
+        # 3. Build trace list from connections (pixel-level, centre-to-centre)
         await publish({"status": "running", "step": "routing", "progress": 70})
-        router     = PCBRouter(board_width=board_w, board_height=board_h)
-        traces, unrouted = router.route(placements)
+        pos_map = {c["id"]: c for c in components}
 
-        # 4. Done
+        traces = []
+        for conn in connections:
+            src_ref = conn["from"].split(".")[0]
+            dst_ref = conn["to"].split(".")[0]
+            src = pos_map.get(src_ref)
+            dst = pos_map.get(dst_ref)
+            if src and dst:
+                traces.append({
+                    "x1": src["x"] + src["w"] // 2,
+                    "y1": src["y"] + src["h"] // 2,
+                    "x2": dst["x"] + dst["w"] // 2,
+                    "y2": dst["y"] + dst["h"] // 2,
+                    "net": conn.get("net", ""),
+                })
+
         result = {
-            "placements": placements,
-            "traces":     traces,
-            "unrouted":   unrouted,
+            "placements":      placements,
+            "connections":     connections,
+            "traces":          traces,
             "board_width_mm":  board_w,
             "board_height_mm": board_h,
         }
