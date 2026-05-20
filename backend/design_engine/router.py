@@ -16,7 +16,7 @@ class Trace:
 def heuristic(a: Tuple[int, int], b: Tuple[int, int]) -> int:
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
-def a_star(start: Tuple[int, int], goal: Tuple[int, int], obstacles: Set[Tuple[int, int]], bounds: Tuple[int, int], thermal_keepouts: Set[Tuple[int, int]] = set()) -> List[Tuple[int, int]]:
+def a_star(start: Tuple[int, int], goal: Tuple[int, int], obstacles: Set[Tuple[int, int]], bounds: Tuple[int, int], thermal_keepouts: Set[Tuple[int, int]] = set(), gnn_suggestions: Dict[Tuple[int, int], float] = {}) -> List[Tuple[int, int]]:
     close_set = set()
     came_from = {}
     gscore = {start: 0}
@@ -40,18 +40,15 @@ def a_star(start: Tuple[int, int], goal: Tuple[int, int], obstacles: Set[Tuple[i
         for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             neighbor = (current[0] + i, current[1] + j)
             
-            # Boundary check
             if not (0 <= neighbor[0] < bounds[0] and 0 <= neighbor[1] < bounds[1]):
                 continue
 
-            # Obstacle check: Allow goal node to be reached even if it's an "obstacle"
             if neighbor in obstacles and neighbor != goal:
                 continue
 
             if neighbor in close_set:
                 continue
                 
-            # Congestion-aware cost: Penalize nodes with many adjacent obstacles
             congestion_penalty = 0.0
             for ni, nj in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
                 if (neighbor[0] + ni, neighbor[1] + nj) in obstacles:
@@ -59,11 +56,12 @@ def a_star(start: Tuple[int, int], goal: Tuple[int, int], obstacles: Set[Tuple[i
                     
             from backend.ml_engine.rl_agent import rl_router_agent
             rl_penalty = rl_router_agent.get_penalty(neighbor[0], neighbor[1])
-            
             thermal_penalty = 50.0 if neighbor in thermal_keepouts else 0.0
             
-            tentative_g_score = gscore[current] + 1 + congestion_penalty + rl_penalty + thermal_penalty
-
+            # GNN Suggestion Bonus (ML-Overlay)
+            gnn_bonus = gnn_suggestions.get(neighbor, 0.0) * -5.0 # Max 5 grid cell discount
+            
+            tentative_g_score = gscore[current] + 1 + congestion_penalty + rl_penalty + thermal_penalty + gnn_bonus
             
             if neighbor not in gscore or tentative_g_score < gscore[neighbor]:
                 came_from[neighbor] = current
@@ -85,7 +83,7 @@ def run_router(request: PCBDesignRequest, placements: List[any]) -> Tuple[List[T
     h_grid = int(request.board.height_mm * grid_scale)
     
     pos_map = {} # (ref, pin) -> (gx, gy)
-    from backend.kicad_bridge.footprint_resolver import resolver
+    from backend.kicad.footprint_resolver import resolver
     comp_dict = {c.ref: c.footprint for c in request.components}
     
     thermal_keepouts = set()
@@ -114,6 +112,10 @@ def run_router(request: PCBDesignRequest, placements: List[any]) -> Tuple[List[T
         pos_map[p.ref] = (int(p.x * grid_scale), int(p.y * grid_scale))
     
     logger.info(f"Built pos_map with {len(pos_map)} entries including pads.")
+
+    # GNN Predictions (Step 11)
+    from backend.ml_engine.routing_gnn import get_routing_suggestions
+    gnn_suggestions = get_routing_suggestions(request.board.width_mm, request.board.height_mm, request.nets, placements)
 
     # 2. Route each net
     global_trace_grid = {} # (gx, gy) -> net_name
@@ -168,7 +170,7 @@ def run_router(request: PCBDesignRequest, placements: List[any]) -> Tuple[List[T
                             net_obstacles.remove(n)
                             unblocked_for_this_seg.append(n)
 
-            path = a_star(start_node, end_node, net_obstacles, (w_grid, h_grid), thermal_keepouts)
+            path = a_star(start_node, end_node, net_obstacles, (w_grid, h_grid), thermal_keepouts, gnn_suggestions)
             
             # Put them back
             for node in unblocked_for_this_seg:

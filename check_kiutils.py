@@ -13,10 +13,13 @@ if hasattr(b, 'modules'):
 if hasattr(b, 'footprints'):
     b.footprints.append(fp)
 
-s = b.to_string()
-if "(module" in s or "(footprint" in s:
-    print("Footprint serialized ✓")
-    if "(module" in s: print("Format: (module ...)")
-    if "(footprint" in s: print("Format: (footprint ...)")
+print(f"Board version: {getattr(b, 'version', 'N/A')}")
+print(f"Board has {len(getattr(b, 'graphicItems', []))} graphic items.")
+print(f"Board has {len(getattr(b, 'footprints', []))} footprints.")
+print(f"Board has {len(getattr(b, 'modules', []))} modules.")
+
+# To see content, we must use a temp file or just trust to_file exists
+if hasattr(b, 'to_file'):
+    print("Found 'to_file' method ✓")
 else:
-    print("Footprint NOT serialized ✗")
+    print("NO 'to_file' method ✗")

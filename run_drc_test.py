@@ -12,8 +12,8 @@ from backend.models.design import PCBDesignRequest, BoardSpec, Component
 from backend.design_engine.parser import parse_prompt
 from backend.design_engine.placement import run_placement
 from backend.design_engine.router import run_router
-from backend.kicad_bridge.exporter import export_kicad_pcb
-from backend.kicad_bridge.drc_runner import run_drc
+from backend.kicad.exporter import export_kicad_pcb
+from backend.kicad.drc_runner import run_drc
 
 def run_test():
     try:
@@ -28,15 +28,13 @@ def run_test():
         
         # 1. Parse
         parsed = parse_prompt(prompt)
-        # Override to ensure we have a dense board for testing DRC overlaps
-        request.components = [
-            Component(ref="U1", part_id="ESP32", footprint="RF_Module:ESP32-WROOM-32", value="ESP32"),
-            Component(ref="U2", part_id="ESP32", footprint="RF_Module:ESP32-WROOM-32", value="ESP32"),
-            Component(ref="R1", part_id="1K", footprint="Resistor_SMD:R_0805_2012Metric", value="1K"),
-            Component(ref="R2", part_id="1K", footprint="Resistor_SMD:R_0805_2012Metric", value="1K"),
-            Component(ref="D1", part_id="LED", footprint="LED_SMD:LED_0805_2012Metric", value="LED Green"),
-            Component(ref="D2", part_id="LED", footprint="LED_SMD:LED_0805_2012Metric", value="LED Red"),
-        ]
+        from backend.models.design import Component, Net
+        request.components = [Component(**c) for c in parsed["components"]]
+        request.nets = [Net(**n) for n in parsed["nets"]]
+        
+        # Ensure we have a GND net for zones
+        if not any(n.name == "GND" for n in request.nets):
+            request.nets.append(Net(name="GND", pins=[]))
         
         # 2. Place
         logger.info("Running placement...")

@@ -21,7 +21,7 @@ def generate_gerber_bundle(pcb_path: str, output_dir: str) -> str:
         # Layers: F.Cu, B.Cu, F.Paste, B.Paste, F.SilkS, B.SilkS, F.Mask, B.Mask, Edge.Cuts
         layers = "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"
         subprocess.run([
-            "kicad-cli", "pcb", "export", "gerber",
+            "kicad-cli", "pcb", "export", "gerbers",
             "--output", str(gerber_dir),
             "--layers", layers,
             str(pcb_path_obj)

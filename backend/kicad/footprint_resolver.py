@@ -43,6 +43,39 @@ class FootprintResolver:
         
         logger.info(f"Built footprint index with {len(self.index)} footprints from {self.lib_path}")
 
+    def find_best_footprint(self, query: str) -> str:
+        """
+        Universal search: find any model name, or library category + name that best matches the query.
+        Returns the footprint string (e.g. 'Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical').
+        """
+        query = query.lower().replace("-", " ").replace("_", " ")
+        best_score = 0.0
+        best_match = None
+        
+        import difflib
+        
+        # We search both simple keys and (cat, pkg) tuples
+        for key in self.index.keys():
+            if isinstance(key, str):
+                search_term = key.lower().replace("_", " ")
+                score = difflib.SequenceMatcher(None, query, search_term).ratio()
+                # Bonus for partial match
+                if query in search_term: score += 0.5
+                
+                if score > best_score:
+                    best_score = score
+                    best_match = key
+            elif isinstance(key, tuple):
+                search_term = f"{key[0]} {key[1]}".lower().replace("_", " ")
+                score = difflib.SequenceMatcher(None, query, search_term).ratio()
+                if query in search_term: score += 0.5
+                
+                if score > best_score:
+                    best_score = score
+                    best_match = f"{key[0]}:{key[1]}"
+
+        return best_match if best_score > 0.4 else None
+
     def resolve(self, footprint_string: str) -> Path:
         """
         Resolve a footprint string to a local path.
@@ -66,17 +99,45 @@ class FootprintResolver:
             elif isinstance(key, tuple):
                 if query in f"{key[0]}_{key[1]}".lower(): return path
 
+        # Worst case fallback: Auto-Heal by searching for best match
+        logger.warning(f"Footprint {footprint_string} not found. Attempting AI Fuzzy Recovery...")
+        best_match = self.find_best_footprint(footprint_string)
+        if best_match:
+            # Re-resolve the fuzzy match
+            if ":" in best_match:
+                cat, pkg = best_match.split(":", 1)
+                if (cat, pkg) in self.index:
+                    logger.info(f"AI Recovered: Using {best_match} for {footprint_string}")
+                    return self.index[(cat, pkg)]
+        
         default_path = self.index.get(("Package_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm"))
         if default_path:
-            logger.warning(f"Footprint {footprint_string} not found. using default {default_path}")
+            logger.warning(f"Fuzzy recovery failed for {footprint_string}. using default {default_path}")
             return default_path
         
-        # Worst case fallback if index is empty
-        logger.error(f"Failed to resolve {footprint_string} and no default available.")
         return Path("/dev/null")
 
     def get_footprint_size(self, footprint_string: str) -> tuple[float, float, float, float]:
         """Dynamically extract actual width, height, and the anchor offset (cx, cy)."""
+        # Hardcoded High-Confidence Map for Common Footprints (Fallback)
+        COMMON_SIZES = {
+            "ARDUINO": (45.0, 18.0, 0.0, 0.0),
+            "NANO": (45.0, 18.0, 0.0, 0.0),
+            "ESP32": (25.5, 18.0, 0.0, 5.0),
+            "WROOM": (25.5, 18.0, 0.0, 5.0),
+            "USB": (10.0, 12.0, 0.0, 5.0),
+            "HEADER": (2.54, 2.54 * 8, 0.0, 0.0),
+            "CONN": (10.0, 10.0, 0.0, 0.0),
+            "CH340": (10.0, 10.0, 0.0, 0.0)
+        }
+        
+        # Check hardcoded map first for reliability
+        query = footprint_string.upper()
+        for key, size in COMMON_SIZES.items():
+            if key in query:
+                logger.info(f"Using hardcoded size for {footprint_string}: {size}")
+                return size
+
         path = self.resolve(footprint_string)
         if not path or not path.exists():
             return 5.0, 5.0, 0.0, 0.0

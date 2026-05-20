@@ -19,6 +19,7 @@ class MockPubSub:
 class InMemoryRedisClient:
     def __init__(self):
         self.channels = {}
+        self.latest_status = {}
 
     def _get_queue(self, channel: str):
         if channel not in self.channels:
@@ -27,8 +28,16 @@ class InMemoryRedisClient:
 
     async def publish_event(self, job_id: str, event_data: dict):
         channel = f"job:{job_id}:events"
+        await self.publish(channel, json.dumps(event_data))
+
+    async def publish(self, channel: str, message: str):
+        if "events" in channel:
+             job_id = channel.split(":")[1]
+             try:
+                 self.latest_status[job_id] = json.loads(message)
+             except: pass
         q = self._get_queue(channel)
-        await q.put(json.dumps(event_data))
+        await q.put(message)
 
     async def get_subscriber(self, channel: str = None):
         if channel:

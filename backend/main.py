@@ -1,7 +1,8 @@
 from fastapi import FastAPI
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from backend.api.routes import design, auth, projects, workspace
+from backend.api.routes import design, auth, projects, collaboration
 from backend.core.database import db
 from backend.core.config import settings
 import os
@@ -30,7 +31,7 @@ app.mount("/exports", StaticFiles(directory=settings.STORAGE_PATH), name="export
 app.include_router(design.router, prefix="/api/v1/design", tags=["design"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(projects.router, prefix="/api/v1/projects", tags=["projects"])
-app.include_router(workspace.router, prefix="/api/v1/workspace", tags=["workspace"])
+app.include_router(collaboration.router, prefix="/api/v1/collaboration", tags=["collaboration"])
 
 @app.on_event("startup")
 async def startup_db_client():
